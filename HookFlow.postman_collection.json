@@ -1,0 +1,127 @@
+{
+	"info": {
+		"_postman_id": "c1f6b8b2-1a2b-4c3d-8e5f-123456789abc",
+		"name": "HookFlow API",
+		"description": "Collection for testing the HookFlow webhook delivery system.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Subscribe to Event",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"url\": \"https://webhook.site/your-webhook-url-here\",\n  \"eventType\": \"user.created\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/subscribe",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"subscribe"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Publish Event",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "x-idempotency-key",
+						"value": "event-12345-abcde",
+						"type": "text",
+						"description": "Unique key to prevent duplicate processing"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"eventType\": \"user.created\",\n  \"payload\": {\n    \"userId\": 101,\n    \"email\": \"john.doe@example.com\",\n    \"name\": \"John Doe\"\n  }\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/events",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"events"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Event Logs",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/api/logs?status=pending&limit=10",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"logs"
+					],
+					"query": [
+						{
+							"key": "status",
+							"value": "pending",
+							"description": "Filter by status (pending, success, failed)"
+						},
+						{
+							"key": "limit",
+							"value": "10"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Health Check",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/api/health",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"health"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
