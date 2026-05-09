@@ -9,11 +9,11 @@ const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/hookfl
 
 async function startServer() {
   try {
-    // Connect to MongoDB
+    
     await mongoose.connect(MONGODB_URI);
     logger.info('Connected to MongoDB', { uri: MONGODB_URI });
 
-    // Start Express server
+    
     app.listen(PORT, () => {
       logger.info(`HookFlow API listening on port ${PORT}`);
     });

@@ -1,9 +1,7 @@
 const Subscriber = require('../models/Subscriber');
 const logger = require('../utils/logger');
 
-/**
- * HookFlow Subscriber Controller
- */
+
 
 const isValidUrl = (url) => {
   try {
@@ -14,7 +12,7 @@ const isValidUrl = (url) => {
   }
 };
 
-// POST /api/subscribers
+
 exports.subscribe = async (req, res) => {
   try {
     const { url, eventType } = req.body;

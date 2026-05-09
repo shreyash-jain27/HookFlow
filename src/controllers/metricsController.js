@@ -9,7 +9,7 @@ exports.getMetrics = async (req, res) => {
     const totalEvents = await Event.countDocuments();
     const totalSubscribers = await Subscriber.countDocuments();
     
-    // Aggregated stats from logs
+    
     const successLogs = await EventLog.countDocuments({ status: 'success' });
     const failedLogs = await EventLog.countDocuments({ status: 'failed' });
     const totalDeliveries = await EventLog.countDocuments();
@@ -22,7 +22,7 @@ exports.getMetrics = async (req, res) => {
     
     const successRate = totalDeliveries > 0 ? ((successLogs / totalDeliveries) * 100).toFixed(2) : 0;
 
-    // Queue stats
+    
     const jobCounts = await webhookQueue.getJobCounts('wait', 'active', 'completed', 'failed', 'delayed');
 
     const mem = process.memoryUsage();
