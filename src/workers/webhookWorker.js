@@ -16,7 +16,7 @@ const processWebhook = async (job) => {
   logger.info(`Starting delivery for event ${eventId}`, { attempt: attemptCount, eventType });
 
   try {
-    // 1. Fetch all subscribers for this event type
+    
     const subscribers = await Subscriber.find({ eventType }).lean();
     
     if (!subscribers.length) {
@@ -25,7 +25,7 @@ const processWebhook = async (job) => {
       return;
     }
 
-    // Construct final payload
+    
     const finalPayload = {
       eventId,
       eventType,
@@ -33,20 +33,20 @@ const processWebhook = async (job) => {
       timestamp: new Date().toISOString()
     };
 
-    // 2. Generate HMAC Signature
+    
     const signature = crypto
       .createHmac('sha256', WEBHOOK_SECRET)
       .update(JSON.stringify(finalPayload))
       .digest('hex');
 
-    // 3. Parallel Delivery Execution
+    
     const deliveryPromises = subscribers.map(async (sub) => {
       const subscriberUrl = sub.url;
       const subscriberId = sub._id;
       
       let log = await EventLog.findOne({ eventId, subscriberId });
       
-      // Idempotency: Skip if already succeeded
+      
       if (log && log.status === 'success') return true;
 
       if (!log) {
@@ -70,7 +70,7 @@ const processWebhook = async (job) => {
             'x-webhook-signature': signature,
             'x-event-id': eventId
           },
-          timeout: 5000 // production-level timeout
+          timeout: 5000 
         });
 
         log.status = 'success';
@@ -84,7 +84,7 @@ const processWebhook = async (job) => {
 
       } catch (error) {
         const responseCode = error.response ? error.response.status : null;
-        const errorMessage = error.message; // Safe error logging
+        const errorMessage = error.message; 
 
         log.status = 'failed';
         log.responseCode = responseCode;
@@ -107,7 +107,7 @@ const processWebhook = async (job) => {
 
   } catch (err) {
     logger.error(`Worker error for event ${eventId}: ${err.message}`);
-    throw err; // Re-throw for BullMQ retry logic
+    throw err; 
   }
 };
 

@@ -6,11 +6,9 @@ const webhookQueue = require('../queue/webhookQueue');
 const logger = require('../utils/logger');
 const connection = require('../queue/connection');
 
-/**
- * HookFlow Controller: Handles event ingestion and delivery status.
- */
 
-// POST /api/events
+
+
 exports.receiveEvent = async (req, res) => {
   try {
     const { eventType, payload } = req.body;
@@ -61,7 +59,7 @@ exports.receiveEvent = async (req, res) => {
   }
 };
 
-// GET /api/events/:eventId
+
 exports.getEventStatus = async (req, res) => {
   try {
     const { eventId } = req.params;
@@ -91,7 +89,7 @@ exports.getEventStatus = async (req, res) => {
   }
 };
 
-// GET /api/dlq
+
 exports.getDeadLetterQueue = async (req, res) => {
   try {
     const failedJobs = await connection.lrange('deadLetterQueue', 0, -1);
