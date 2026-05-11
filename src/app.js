@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const rateLimit = require('express-rate-limit');
 const routes = require('./routes');
+const { swaggerUi, specs } = require('./utils/swagger');
 
 const app = express();
 
@@ -30,6 +31,9 @@ app.get('/', (req, res) => {
 
 
 app.use('/api', routes);
+
+// Swagger Documentation
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 
 
 app.use((req, res, next) => {
