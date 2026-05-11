@@ -16,6 +16,10 @@ async function startServer() {
     
     app.listen(PORT, () => {
       logger.info(`HookFlow API listening on port ${PORT}`);
+      
+      // Start the worker in the same process for simplified deployment (e.g., Render Free Tier)
+      require('./workers/webhookWorker');
+      logger.info('Webhook Worker started within API process');
     });
   } catch (error) {
     logger.error('Failed to start server', { error: error.message });

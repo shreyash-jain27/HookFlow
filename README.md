@@ -41,7 +41,7 @@ HookFlow uses a **Producer-Consumer** architecture:
 
 ### Monitoring
 - `GET /api/metrics`: Real-time system health and success rates.
-- `GET /api/dlq`: View failed deliveries in the Dead Letter Queue.
+- `GET /api/dead`: View failed deliveries in the Dead Letter Queue.
 
 ## 📦 Setup Instructions
 
